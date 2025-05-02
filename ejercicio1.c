@@ -25,7 +25,7 @@ Se debe mostrar por pantalla:
 
 /*
 
-1) Crear fichero que contenga la info de los personajes -> Hecho
+1) Crear fichero que contenga la info de los personajes
 
 2) Pedir al usuario la info de los personajes
 
@@ -53,7 +53,7 @@ typedef enum {
 typedef struct{
 
 	char nombre[20];
-	Clase personaje_clase;
+	Clase clase;
 	int nivel;
 	int vida;
 	int poder_ataque;
@@ -65,9 +65,23 @@ typedef struct{
 
 int main (int argc, char * argv[]){
 	
-	Personaje personaje;
-		
-	printf(">>> Personaje %s", personaje.nombre);
+	Personaje personaje;	
+	
+	printf("----------------------------------------------------------- \n");
+	printf("Bienvenido!!! Por favor, introduzca los datos de un personaje \n");
+	printf("Forma -> nombre, clase, nivel, vida, ataque, defensa, magia \n");
+	printf("----------------------------------------------------------- \n");
+	
+	scanf("%s %s %d %d %d %d %d", personaje.nombre, personaje.clase, &personaje.nivel, &personaje.vida, &personaje.poder_ataque, &personaje.capacidad_defensa, &personaje.habilidad_magia);
+	
+	printf("\nLos datos del personaje introducidos son:\n");
+    printf("Nombre: %s\n", personaje.nombre);
+    printf("Clase: %s\n", personaje.clase);
+    printf("Nivel: %d\n", personaje.nivel);
+    printf("Vida: %d\n", personaje.vida);
+    printf("Poder de ataque: %d\n", personaje.poder_ataque);
+    printf("Capacidad de defensa: %d\n", personaje.capacidad_defensa);
+    printf("Habilidad de magia: %d\n", personaje.habilidad_magia);	
 	
 	return 0;
 }
