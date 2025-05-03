@@ -53,28 +53,39 @@ typedef struct{
 }Personaje;
 
 int insert_character(Personaje personaje);
+int read_file();
 
 int insert_character(Personaje personaje){
 	
-	FILE *archivo = fopen("personajes.txt", "a");
+	FILE *file = fopen("personajes.txt", "a");
 	
-	if(archivo == NULL){
-		printf("Error al abrir el archivo.\n");
+	if(file == NULL){
+		printf("Error al abrir el file.\n");
 		return 1;
 	}
 	
-	fprintf(archivo, "%s %s %d %d %d %d %d", personaje.nombre, personaje.clase,	personaje.nivel, personaje.vida, personaje.poder_ataque, personaje.capacidad_defensa,  personaje.habilidad_magia);
+	fprintf(file, "%s %s %d %d %d %d %d", personaje.nombre, personaje.clase, personaje.nivel, personaje.vida, personaje.poder_ataque, personaje.capacidad_defensa,  personaje.habilidad_magia);
 	
-	fclose(archivo);
+	fclose(file);
+	return 0;
+}
+
+int read_file(){
 	
-	printf("\nLos datos del personaje introducidos son:\n");
-    printf("Nombre: %s\n", personaje.nombre);
-    printf("Clase: %s\n", personaje.clase);
-    printf("Nivel: %d\n", personaje.nivel);
-    printf("Vida: %d\n", personaje.vida);
-    printf("Poder de ataque: %d\n", personaje.poder_ataque);
-    printf("Capacidad de defensa: %d\n", personaje.capacidad_defensa);
-    printf("Habilidad de magia: %d\n", personaje.habilidad_magia);	
+	FILE * file = fopen("personajes.txt", "r");
+	
+	if(file == NULL){
+		printf("Lo sentimos, no se pudo leer, el archivo esta vacío");
+		return 1;
+	}
+	
+	Personaje p;
+	
+	while(fscanf(file, "%s %s %d %d %d %d %d", p.nombre, p.clase, &p.nivel, &p.vida, &p.poder_ataque, &p.capacidad_defensa, &p.habilidad_magia) == 7){
+		printf("Nombre: %s, Clase: %s, Nivel: %d, HP: %d, ATK: %d, DEF: %d, MAG: %d \n", p.nombre, p.clase, p.nivel, p.vida, p.poder_ataque, p.capacidad_defensa, p.habilidad_magia);
+	}
+	
+	fclose(file);
 	
 	return 0;
 }
@@ -102,10 +113,10 @@ int main (int argc, char *argv[]){
 	}
 	
 	 
-	if (personaje.nivel != 1 || personaje.vida != 1 || personaje.poder_ataque != 1 || personaje.capacidad_defensa != 1 || personaje.habilidad_magia != 1) {
-		printf("Lo sentimos en la parte de vida, ataque, defensa o magia, no has introducido un numero, intentalo de nuevo.\n"); 
+	/*if (personaje.nivel != 3 || personaje.vida != 3 || personaje.poder_ataque != 3 || personaje.capacidad_defensa != 3 || personaje.habilidad_magia != 3){
+		printf("Lo sentimos en la parte de vida, ataque, defensa o magia, no has introducido un numero o es > 3, intentalo de nuevo.\n"); 
 		return 0;
-	}
+	}*/
 
 	
 	
@@ -130,8 +141,7 @@ int main (int argc, char *argv[]){
 				
 				printf("Gracias por participar!! Hasta la proxima \n");
 				printf("------------------------------------------\n");
-				printf("Lista de personajes: \n");
-				printf("Estadisticas de los personajes: \n");
+				read_file();
 				return 0;
 				
 			}
