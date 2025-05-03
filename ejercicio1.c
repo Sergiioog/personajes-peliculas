@@ -39,21 +39,11 @@ Se debe mostrar por pantalla:
 #include <string.h>
 
 
-typedef enum {
-
-	GUERRERO,
-	MAGO,
-	ARQUERO,
-	PALADIN,
-	ROGUE
-
-}Clase;	
-
 	
 typedef struct{
 
 	char nombre[20];
-	Clase clase;
+	char clase[10];
 	int nivel;
 	int vida;
 	int poder_ataque;
@@ -62,17 +52,9 @@ typedef struct{
 
 }Personaje;
 
+int insert_character(Personaje personaje);
 
-int main (int argc, char * argv[]){
-	
-	Personaje personaje;	
-	
-	printf("----------------------------------------------------------- \n");
-	printf("Bienvenido!!! Por favor, introduzca los datos de un personaje \n");
-	printf("Forma -> nombre, clase, nivel, vida, ataque, defensa, magia \n");
-	printf("----------------------------------------------------------- \n");
-	
-	scanf("%s %s %d %d %d %d %d", personaje.nombre, personaje.clase, &personaje.nivel, &personaje.vida, &personaje.poder_ataque, &personaje.capacidad_defensa, &personaje.habilidad_magia);
+int insert_character(Personaje personaje){
 	
 	printf("\nLos datos del personaje introducidos son:\n");
     printf("Nombre: %s\n", personaje.nombre);
@@ -84,4 +66,47 @@ int main (int argc, char * argv[]){
     printf("Habilidad de magia: %d\n", personaje.habilidad_magia);	
 	
 	return 0;
+}
+
+
+int main (int argc, char *argv[]){
+	
+	Personaje personaje;	
+	
+	printf("----------------------------------------------------------- \n");
+	printf("Bienvenido!!! Por favor, introduzca los datos de un personaje \n");
+	printf("Forma -> nombre, clase, nivel, vida, ataque, defensa, magia \n");
+	printf("----------------------------------------------------------- \n");
+	
+	scanf("%s %s %d %d %d %d %d", personaje.nombre, &personaje.clase, &personaje.nivel, &personaje.vida, &personaje.poder_ataque, &personaje.capacidad_defensa, &personaje.habilidad_magia);
+	
+	int personaje_guardado = insert_character(personaje);
+	
+	while(1){
+		
+		if(personaje_guardado == 0){
+			printf("Personaje guardado con exito!!! Si desea continuar, pulse 0, si no, pulse 1: \n");
+			int respuestaUsuario;
+			scanf("%d", &respuestaUsuario);
+			printf("--------------------------------------------------------------------------------\n");
+			
+			if(respuestaUsuario == 0){
+				
+				printf("Por favor, introduzca los datos de su nuevo personaje: \n");
+				printf("Forma -> nombre, clase, nivel, vida, ataque, defensa, magia \n");
+				scanf("%s %s %d %d %d %d %d", personaje.nombre, &personaje.clase, &personaje.nivel, &personaje.vida, &personaje.poder_ataque, &personaje.capacidad_defensa, &personaje.habilidad_magia);
+				insert_character(personaje);
+			
+			}else{
+				
+				printf("Gracias por participar!! Hasta la proxima \n");
+				printf("------------------------------------------\n");
+				printf("Lista de personajes: \n");
+				printf("Estadísticas de los personajes: \n");
+				return 0;
+				
+			}
+		}
+	
+	}
 }
