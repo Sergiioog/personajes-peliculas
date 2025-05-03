@@ -42,8 +42,8 @@ Se debe mostrar por pantalla:
 	
 typedef struct{
 
-	char nombre[20];
-	char clase[10];
+	char nombre[21];
+	char clase[11];
 	int nivel;
 	int vida;
 	int poder_ataque;
@@ -55,6 +55,17 @@ typedef struct{
 int insert_character(Personaje personaje);
 
 int insert_character(Personaje personaje){
+	
+	FILE *archivo = fopen("personajes.txt", "a");
+	
+	if(archivo == NULL){
+		printf("Error al abrir el archivo.\n");
+		return 1;
+	}
+	
+	fprintf(archivo, "%s %s %d %d %d %d %d", personaje.nombre, personaje.clase,	personaje.nivel, personaje.vida, personaje.poder_ataque, personaje.capacidad_defensa,  personaje.habilidad_magia);
+	
+	fclose(archivo);
 	
 	printf("\nLos datos del personaje introducidos son:\n");
     printf("Nombre: %s\n", personaje.nombre);
@@ -79,6 +90,24 @@ int main (int argc, char *argv[]){
 	printf("----------------------------------------------------------- \n");
 	
 	scanf("%s %s %d %d %d %d %d", personaje.nombre, &personaje.clase, &personaje.nivel, &personaje.vida, &personaje.poder_ataque, &personaje.capacidad_defensa, &personaje.habilidad_magia);
+
+	if(strlen(personaje.nombre) > 20){
+		printf("Lo sentimos, el nombre es demasiado largo (>20)");
+		return 0;
+	}
+	
+	if(strlen(personaje.clase) > 10){
+		printf("Lo sentimos, la clase es demasiado larga (>20)");
+		return 0;
+	}
+	
+	 
+	if (personaje.nivel != 1 || personaje.vida != 1 || personaje.poder_ataque != 1 || personaje.capacidad_defensa != 1 || personaje.habilidad_magia != 1) {
+		printf("Lo sentimos en la parte de vida, ataque, defensa o magia, no has introducido un numero, intentalo de nuevo.\n"); 
+		return 0;
+	}
+
+	
 	
 	int personaje_guardado = insert_character(personaje);
 	
@@ -102,7 +131,7 @@ int main (int argc, char *argv[]){
 				printf("Gracias por participar!! Hasta la proxima \n");
 				printf("------------------------------------------\n");
 				printf("Lista de personajes: \n");
-				printf("Estadísticas de los personajes: \n");
+				printf("Estadisticas de los personajes: \n");
 				return 0;
 				
 			}
