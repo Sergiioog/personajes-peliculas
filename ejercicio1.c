@@ -55,7 +55,7 @@ typedef struct{
 int insert_character(Personaje personaje);
 int read_file();
 int get_level_media(int nivel, int valor_contador);
-int save_characters_level(Personaje personaje);
+int save_characters_level(Personaje * array_personajes, int valor_contador);
 
 int insert_character(Personaje personaje){
 	
@@ -81,23 +81,37 @@ int read_file(){
 		return 1;
 	}
 	
+	Personaje *personajes_mayor_siete = NULL;
+	//(Personaje*)malloc(sizeof(Personaje));
+	
 	Personaje p;
 	int contador = 0;
+	int contador_mayor_siete = 0;
 	int valor_niveles = 0;
 	
-	int result = fscanf(file, "%s %s %d %d %d %d %d", p.nombre, p.clase, &p.nivel, &p.vida, &p.poder_ataque, &p.capacidad_defensa, &p.habilidad_magia);
 	
-	while(result == 7){
+	while(fscanf(file, "%s %s %d %d %d %d %d", p.nombre, p.clase, &p.nivel, &p.vida, &p.poder_ataque, &p.capacidad_defensa, &p.habilidad_magia) == 7){
+		
 		printf("Nombre: %s, Clase: %s, Nivel: %d, HP: %d, ATK: %d, DEF: %d, MAG: %d \n", p.nombre, p.clase, p.nivel, p.vida, p.poder_ataque, p.capacidad_defensa, p.habilidad_magia);
 		contador++;
 		valor_niveles += p.nivel;
+
 		if(p.nivel > 7){
-			printf(" MAYOR A 7 > Nombre: %s, Clase: %s, Nivel: %d, HP: %d, ATK: %d, DEF: %d, MAG: %d \n", p.nombre, p.clase, p.nivel, p.vida, p.poder_ataque, p.capacidad_defensa, p.habilidad_magia);
-			save_characters_level(p); //Cambiar lo que se mete por param
+			
+			personajes_mayor_siete = realloc(personajes_mayor_siete, (contador_mayor_siete + 1) * sizeof(Personaje));
+			
+			if(personajes_mayor_siete == NULL){
+				printf("Error al redimensionar memoria");
+				return 1;
+			}
+			
+			personajes_mayor_siete[contador_mayor_siete] = p;
+			contador_mayor_siete++;
 		}
 	}
 	
 	get_level_media(valor_niveles ,contador);
+	save_characters_level(personajes_mayor_siete, contador_mayor_siete);
 	
 	fclose(file);
 	
@@ -129,8 +143,16 @@ int get_level_media(int suma_niveles, int valor_contador){
 	return 0;
 }
 
-int save_characters_level(Personaje personaje){
-	printf("PERSONAJE > 7 ", personaje);
+int save_characters_level(Personaje *array_personajes, int valor_contador){
+	
+	printf("\n");
+	printf("Personajes cuyo nivel es mayor a 7: \n");
+	for(int i = 0; i < valor_contador; i++){
+		printf("Nombre: %s, Clase: %s, Nivel: %d, HP: %d, ATK: %d, DEF: %d, MAG: %d \n", array_personajes[i].nombre, 
+		array_personajes[i].clase, array_personajes[i].nivel, array_personajes[i].vida, array_personajes[i].poder_ataque, 
+		array_personajes[i].capacidad_defensa, array_personajes[i].habilidad_magia);
+	}
+	
 	return 0;
 }
 
@@ -162,6 +184,8 @@ int main (int argc, char *argv[]){
 	}*/
 
 	int personaje_guardado = insert_character(personaje);
+	
+
 	
 	while(1){
 		

@@ -1,1 +1,1 @@
-Ignacio Mago 10 20 30 40 50Sergio Mago 31 20 30 40 50' 0 31 20 30 40 50Maria Arquera 20 30 40 50 60Juanito Mago 10 10 10 10 10ÿa ÿa 6422356 4202187 4202096 14224768 0Jun Arquero 200 200 200 200 200
+Juan Mago 10 10 10 10 10Sergio Arquero 20 20 20 20 20Sergio Arquero 1 1 1 1 1Campo Tonto 5 5 5 5 5Sergio Mago 50 50 50 50 50
