@@ -1,1 +1,1 @@
-Sergio Mago 10 20 30 50 50Montse Maga 5 5 5 5 5Carmencita 10 10 10 10 10 10Ignacion Mago 2 2 2 2 2
+Sergio Mago 10 10 10 10 10Carmen Maga 20 20 20 20 20Monchet Maga 1 1 1 1 1Ignacio Arquero 1 1 1 1 1Oltra Mago 1 1 1 1 1Luisete Mago 50 50 50 50 50

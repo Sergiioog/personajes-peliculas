@@ -113,10 +113,12 @@ int read_file(){
 		}
 	}
 	
+	fclose(file);
+
 	get_level_media(valor_niveles ,contador);
 	insert_characters_level(personajes_mayor_siete, contador_mayor_siete);
 	
-	fclose(file);
+	free(personajes_mayor_siete);
 	
 	return 0;
 }
@@ -150,7 +152,7 @@ int get_level_media(int suma_niveles, int valor_contador){
 //Funcion para insertar los personajes cuyo nivel > 7 encontrados en otro fichero
 int insert_characters_level(Personaje *array_personajes, int valor_contador){
 	
-	FILE * fileLevels = fopen("personajesLevel.txt", "a");
+FILE * fileLevels = fopen("personajesLevel.txt", "w");
 	
 	if(fileLevels == NULL){
 		printf("Error al abrir el archivo para escritura.\n");
@@ -181,8 +183,8 @@ int read_fileLevels(){
 
 	printf("\n");
 	printf("Lista de personajes cuyo nivel >7 provenientes de personajesLevel.txt: \n");
-	while(fscanf(fileLevels, "%20s %20s %d %d %d %d %d", p.nombre, p.clase, &p.nivel, &p.vida, &p.poder_ataque, &p.capacidad_defensa, &p.habilidad_magia) == 7){ //Bucle que muestra los resultados del txt por consola
-		printf("Nombre: %20s, Clase: %20s, Nivel: %d, HP: %d, ATK: %d, DEF: %d, MAG: %d \n", p.nombre, p.clase, p.nivel, p.vida, p.poder_ataque, p.capacidad_defensa, p.habilidad_magia);
+	while(fscanf(fileLevels, "%s %s %d %d %d %d %d", p.nombre, p.clase, &p.nivel, &p.vida, &p.poder_ataque, &p.capacidad_defensa, &p.habilidad_magia) == 7){ //Bucle que muestra los resultados del txt por consola
+		printf("Nombre: %s, Clase: %s, Nivel: %d, HP: %d, ATK: %d, DEF: %d, MAG: %d \n", p.nombre, p.clase, p.nivel, p.vida, p.poder_ataque, p.capacidad_defensa, p.habilidad_magia);
 	}
 	printf("\n");
 	
