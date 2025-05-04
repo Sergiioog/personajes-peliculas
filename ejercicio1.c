@@ -37,9 +37,9 @@ Se debe mostrar por pantalla:
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 
-	
 typedef struct{
 
 	char nombre[21];
@@ -54,6 +54,7 @@ typedef struct{
 
 int insert_character(Personaje personaje);
 int read_file();
+int get_level_media(int nivel, int valor_contador);
 
 int insert_character(Personaje personaje){
 	
@@ -80,12 +81,43 @@ int read_file(){
 	}
 	
 	Personaje p;
+	int contador = 0;
+	int valor_niveles = 0;
 	
 	while(fscanf(file, "%s %s %d %d %d %d %d", p.nombre, p.clase, &p.nivel, &p.vida, &p.poder_ataque, &p.capacidad_defensa, &p.habilidad_magia) == 7){
 		printf("Nombre: %s, Clase: %s, Nivel: %d, HP: %d, ATK: %d, DEF: %d, MAG: %d \n", p.nombre, p.clase, p.nivel, p.vida, p.poder_ataque, p.capacidad_defensa, p.habilidad_magia);
+		contador++;
+		valor_niveles += p.nivel;
 	}
 	
+	get_level_media(valor_niveles ,contador);
+
 	fclose(file);
+	
+	return 0;
+}
+
+int get_level_media(int suma_niveles, int valor_contador){
+	
+	if(valor_contador <= 0){
+		printf("Valor del contador no válido: %d\n", valor_contador);
+		return 1;
+	}
+	
+	int *personajes_niveles = (int*)malloc(valor_contador * sizeof(int));
+	
+	if (personajes_niveles == NULL) {
+        printf("Error de asignacion de memoria\n");
+		return 1;
+    }
+	
+	float media = (float)suma_niveles / valor_contador;  
+	
+	printf("\n");
+	printf("Estadisticas de los personajes: \n");
+	printf("Media -> %.2f\n", media);
+	
+	free(personajes_niveles);  
 	
 	return 0;
 }
@@ -112,14 +144,12 @@ int main (int argc, char *argv[]){
 		return 0;
 	}
 	
-	 
+
 	/*if (personaje.nivel != 3 || personaje.vida != 3 || personaje.poder_ataque != 3 || personaje.capacidad_defensa != 3 || personaje.habilidad_magia != 3){
 		printf("Lo sentimos en la parte de vida, ataque, defensa o magia, no has introducido un numero o es > 3, intentalo de nuevo.\n"); 
-		return 0;
+		return 0; REVISAR CONDICIONAL Y MIRAR PERSONAJE.CLASE 
 	}*/
 
-	
-	
 	int personaje_guardado = insert_character(personaje);
 	
 	while(1){
@@ -140,12 +170,13 @@ int main (int argc, char *argv[]){
 			}else{
 				
 				printf("Gracias por participar!! Hasta la proxima \n");
-				printf("------------------------------------------\n");
+				printf("---------------------------------------------------------------------------\n");
 				read_file();
-				return 0;
+				
+				//free(); Revisar
+ 				return 0;
 				
 			}
 		}
-	
 	}
 }
