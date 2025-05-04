@@ -55,8 +55,10 @@ typedef struct{
 int insert_character(Personaje personaje);
 int read_file();
 int get_level_media(int nivel, int valor_contador);
-int save_characters_level(Personaje * array_personajes, int valor_contador);
+int insert_characters_level(Personaje * array_personajes, int valor_contador);
+int read_fileLevels();
 
+//Metodo para insertar un personaje en txt
 int insert_character(Personaje personaje){
 	
 	FILE *file = fopen("personajes.txt", "a");
@@ -72,33 +74,34 @@ int insert_character(Personaje personaje){
 	return 0;
 }
 
+//Metodo para leer los personajes del txt
 int read_file(){
 	
-	FILE * file = fopen("personajes.txt", "r");
+	FILE *file = fopen("personajes.txt", "r");
 	
 	if(file == NULL){
 		printf("Lo sentimos, no se pudo leer, el archivo esta vacío");
 		return 1;
 	}
 	
-	Personaje *personajes_mayor_siete = NULL;
-	//(Personaje*)malloc(sizeof(Personaje));
+	Personaje *personajes_mayor_siete = NULL; //Inicializo a null ya que para crear un array donde guardar los registros cuyo nivel > 7 necesito tener un cuantificador que se declara mas abajo 
+
 	
 	Personaje p;
-	int contador = 0;
-	int contador_mayor_siete = 0;
+	int contador = 0; //Contador registros normal
+	int contador_mayor_siete = 0; //Contador registros nivel > 7
 	int valor_niveles = 0;
 	
 	
-	while(fscanf(file, "%s %s %d %d %d %d %d", p.nombre, p.clase, &p.nivel, &p.vida, &p.poder_ataque, &p.capacidad_defensa, &p.habilidad_magia) == 7){
+	while(fscanf(file, "%s %s %d %d %d %d %d", p.nombre, p.clase, &p.nivel, &p.vida, &p.poder_ataque, &p.capacidad_defensa, &p.habilidad_magia) == 7){ //Bucle que muestra los resultados del txt por consola
 		
 		printf("Nombre: %s, Clase: %s, Nivel: %d, HP: %d, ATK: %d, DEF: %d, MAG: %d \n", p.nombre, p.clase, p.nivel, p.vida, p.poder_ataque, p.capacidad_defensa, p.habilidad_magia);
 		contador++;
-		valor_niveles += p.nivel;
+		valor_niveles += p.nivel; //Variable para realizar la media mas adelante
 
 		if(p.nivel > 7){
 			
-			personajes_mayor_siete = realloc(personajes_mayor_siete, (contador_mayor_siete + 1) * sizeof(Personaje));
+			personajes_mayor_siete = realloc(personajes_mayor_siete, (contador_mayor_siete + 1) * sizeof(Personaje)); //Realloc para reasignar memoria en funcion de los registros que cumplan la condicion, que se vaya encontrando
 			
 			if(personajes_mayor_siete == NULL){
 				printf("Error al redimensionar memoria");
@@ -111,13 +114,14 @@ int read_file(){
 	}
 	
 	get_level_media(valor_niveles ,contador);
-	save_characters_level(personajes_mayor_siete, contador_mayor_siete);
+	insert_characters_level(personajes_mayor_siete, contador_mayor_siete);
 	
 	fclose(file);
 	
 	return 0;
 }
 
+//Función para calcular la media de los niveles
 int get_level_media(int suma_niveles, int valor_contador){
 	
 	if(valor_contador <= 0){
@@ -136,22 +140,53 @@ int get_level_media(int suma_niveles, int valor_contador){
 	
 	printf("\n");
 	printf("Estadisticas de los personajes: \n");
-	printf("Media -> %.2f\n", media);
+	printf("Media -> %.2f\n", media); //Formateamos a 2 decimales
 	
 	free(personajes_niveles);  
 	
 	return 0;
 }
 
-int save_characters_level(Personaje *array_personajes, int valor_contador){
+//Funcion para insertar los personajes cuyo nivel > 7 encontrados en otro fichero
+int insert_characters_level(Personaje *array_personajes, int valor_contador){
 	
-	printf("\n");
-	printf("Personajes cuyo nivel es mayor a 7: \n");
+	FILE * fileLevels = fopen("personajesLevel.txt", "a");
+	
+	if(fileLevels == NULL){
+		printf("Error al abrir el archivo para escritura.\n");
+		return 1;
+	}
+	
 	for(int i = 0; i < valor_contador; i++){
-		printf("Nombre: %s, Clase: %s, Nivel: %d, HP: %d, ATK: %d, DEF: %d, MAG: %d \n", array_personajes[i].nombre, 
+		fprintf(fileLevels, "%s %s %d %d %d %d %d\n", array_personajes[i].nombre, 
 		array_personajes[i].clase, array_personajes[i].nivel, array_personajes[i].vida, array_personajes[i].poder_ataque, 
 		array_personajes[i].capacidad_defensa, array_personajes[i].habilidad_magia);
 	}
+	
+	fclose(fileLevels);
+		
+	return 0;
+}
+
+int read_fileLevels(){
+	
+	FILE * fileLevels = fopen("personajesLevel.txt", "r");
+	
+	if(fileLevels == NULL){
+		printf("Lo sentimos, no se pudo leer, el archivo esta vacío");
+		return 1;
+	}
+	
+	Personaje p;
+
+	printf("\n");
+	printf("Lista de personajes cuyo nivel >7 provenientes de personajesLevel.txt: \n");
+	while(fscanf(fileLevels, "%20s %20s %d %d %d %d %d", p.nombre, p.clase, &p.nivel, &p.vida, &p.poder_ataque, &p.capacidad_defensa, &p.habilidad_magia) == 7){ //Bucle que muestra los resultados del txt por consola
+		printf("Nombre: %20s, Clase: %20s, Nivel: %d, HP: %d, ATK: %d, DEF: %d, MAG: %d \n", p.nombre, p.clase, p.nivel, p.vida, p.poder_ataque, p.capacidad_defensa, p.habilidad_magia);
+	}
+	printf("\n");
+	
+	fclose(fileLevels);
 	
 	return 0;
 }
@@ -166,7 +201,8 @@ int main (int argc, char *argv[]){
 	printf("----------------------------------------------------------- \n");
 	
 	scanf("%s %s %d %d %d %d %d", personaje.nombre, &personaje.clase, &personaje.nivel, &personaje.vida, &personaje.poder_ataque, &personaje.capacidad_defensa, &personaje.habilidad_magia);
-
+	
+	//VALIDACIONES
 	if(strlen(personaje.nombre) > 20){
 		printf("Lo sentimos, el nombre es demasiado largo (>20)");
 		return 0;
@@ -185,11 +221,10 @@ int main (int argc, char *argv[]){
 
 	int personaje_guardado = insert_character(personaje);
 	
-
-	
 	while(1){
 		
 		if(personaje_guardado == 0){
+			
 			printf("Personaje guardado con exito!!! Si desea continuar, pulse 0, si no, pulse 1: \n");
 			int respuestaUsuario;
 			scanf("%d", &respuestaUsuario);
@@ -207,8 +242,7 @@ int main (int argc, char *argv[]){
 				printf("Gracias por participar!! Hasta la proxima \n");
 				printf("---------------------------------------------------------------------------\n");
 				read_file();
-				
-				//free(); Revisar
+				read_fileLevels();
  				return 0;
 				
 			}

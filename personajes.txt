@@ -1,1 +1,1 @@
-Juan Mago 10 10 10 10 10Sergio Arquero 20 20 20 20 20Sergio Arquero 1 1 1 1 1Campo Tonto 5 5 5 5 5Sergio Mago 50 50 50 50 50
+Sergio Mago 10 20 30 50 50Montse Maga 5 5 5 5 5Carmencita 10 10 10 10 10 10Ignacion Mago 2 2 2 2 2

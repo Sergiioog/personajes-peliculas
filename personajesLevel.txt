@@ -1,0 +1,2 @@
+Sergio Mago 10 20 30 50 50
+Carmencita 10 10 10 10 10 10
