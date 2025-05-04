@@ -55,6 +55,7 @@ typedef struct{
 int insert_character(Personaje personaje);
 int read_file();
 int get_level_media(int nivel, int valor_contador);
+int save_characters_level(Personaje personaje);
 
 int insert_character(Personaje personaje){
 	
@@ -84,14 +85,20 @@ int read_file(){
 	int contador = 0;
 	int valor_niveles = 0;
 	
-	while(fscanf(file, "%s %s %d %d %d %d %d", p.nombre, p.clase, &p.nivel, &p.vida, &p.poder_ataque, &p.capacidad_defensa, &p.habilidad_magia) == 7){
+	int result = fscanf(file, "%s %s %d %d %d %d %d", p.nombre, p.clase, &p.nivel, &p.vida, &p.poder_ataque, &p.capacidad_defensa, &p.habilidad_magia);
+	
+	while(result == 7){
 		printf("Nombre: %s, Clase: %s, Nivel: %d, HP: %d, ATK: %d, DEF: %d, MAG: %d \n", p.nombre, p.clase, p.nivel, p.vida, p.poder_ataque, p.capacidad_defensa, p.habilidad_magia);
 		contador++;
 		valor_niveles += p.nivel;
+		if(p.nivel > 7){
+			printf(" MAYOR A 7 > Nombre: %s, Clase: %s, Nivel: %d, HP: %d, ATK: %d, DEF: %d, MAG: %d \n", p.nombre, p.clase, p.nivel, p.vida, p.poder_ataque, p.capacidad_defensa, p.habilidad_magia);
+			save_characters_level(p); //Cambiar lo que se mete por param
+		}
 	}
 	
 	get_level_media(valor_niveles ,contador);
-
+	
 	fclose(file);
 	
 	return 0;
@@ -122,6 +129,10 @@ int get_level_media(int suma_niveles, int valor_contador){
 	return 0;
 }
 
+int save_characters_level(Personaje personaje){
+	printf("PERSONAJE > 7 ", personaje);
+	return 0;
+}
 
 int main (int argc, char *argv[]){
 	
