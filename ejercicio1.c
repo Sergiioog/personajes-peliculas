@@ -53,10 +53,10 @@ typedef struct{
 }Personaje;
 
 int insert_character(Personaje personaje);
-int read_file();
-int get_level_media(int nivel, int valor_contador);
 int insert_characters_level(Personaje * array_personajes, int valor_contador);
+int read_file();
 int read_fileLevels();
+int get_level_media(int nivel, int valor_contador);
 
 //Metodo para insertar un personaje en txt
 int insert_character(Personaje personaje){
@@ -201,6 +201,60 @@ int main (int argc, char *argv[]){
 	printf("Bienvenido!!! Por favor, introduzca los datos de un personaje \n");
 	printf("Forma -> nombre, clase, nivel, vida, ataque, defensa, magia \n");
 	printf("----------------------------------------------------------- \n");
+	
+	/*REVISAR IMPLEMENTACION
+	char buffer[200];
+	fgets(buffer, sizeof(buffer), stdin);
+	char *dato_usuario = strtok(buffer, ",");
+	int numero_datos = 0;
+	
+	while(dato_usuario != NULL){
+		switch(numero_datos){
+			case 0: 
+				strncpy(personaje.nombre, dato_usuario, sizeof((personaje.nombre)-1));
+				personaje.nombre[sizeof(personaje.nombre) - 1] = '\n';
+				break;
+				
+			case 1:
+				strncpy(personaje.clase, dato_usuario, sizeof((personaje.clase)-1));
+				personaje.clase[sizeof(personaje.clase) - 1] = '\n'; //Forzamos la eliminacion de \n para evitar extraños en consola
+				break;
+				
+			case 2:
+				personaje.nivel = atoi(dato_usuario);
+				break;
+				
+			case 3:
+				personaje.vida = atoi(dato_usuario);
+				break;
+				
+			case 4:
+				personaje.poder_ataque = atoi(dato_usuario);
+				break;
+				
+			case 5:
+				personaje.capacidad_defensa = atoi(dato_usuario);
+				break;
+				
+			case 6:
+				personaje.habilidad_magia = atoi(dato_usuario);
+				break;
+				
+
+			default:
+				printf("Error, debe de haber solo 7 datos");
+				return 1;
+		}
+		
+		numero_datos++;
+		dato_usuario = strtok(NULL, ",");
+	}
+	
+
+	if (numero_datos != 7) {
+		printf("Error: debes introducir exactamente 7 valores separados por comas.\n");
+		return 1;
+	}*/
 	
 	scanf("%s %s %d %d %d %d %d", personaje.nombre, &personaje.clase, &personaje.nivel, &personaje.vida, &personaje.poder_ataque, &personaje.capacidad_defensa, &personaje.habilidad_magia);
 	
