@@ -1,1 +1,3 @@
-Sergio Mago 10 10 10 10 10
+Sergio mago 10 10 10 10 10
+Carmen arquero 20 20 20 20 20
+Prueboto arquero 40 50 60 70 80

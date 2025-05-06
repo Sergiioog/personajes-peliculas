@@ -57,6 +57,7 @@ int insert_characters_level(Personaje * array_personajes, int valor_contador);
 int read_file();
 int read_fileLevels();
 int get_level_media(int nivel, int valor_contador);
+int check_class(Personaje personaje);
 
 //Metodo para insertar un personaje en txt
 int insert_character(Personaje personaje){
@@ -152,7 +153,7 @@ int get_level_media(int suma_niveles, int valor_contador){
 //Funcion para insertar los personajes cuyo nivel > 7 encontrados en otro fichero
 int insert_characters_level(Personaje *array_personajes, int valor_contador){
 	
-FILE * fileLevels = fopen("personajesLevel.txt", "w");
+	FILE * fileLevels = fopen("personajesLevel.txt", "w");
 	
 	if(fileLevels == NULL){
 		printf("Error al abrir el archivo para escritura.\n");
@@ -193,6 +194,22 @@ int read_fileLevels(){
 	return 0;
 }
 
+int check_class(Personaje personaje){
+	
+	char *validClass[] = {"guerrero","mago","arquero","paladin","rogue"}; //clases habilitadas
+	
+	int numberElements = sizeof(validClass) / sizeof(validClass[0]); //Sacamos los elementos en funcion del numero de punteros que haya de 8 bits
+
+	for(int i = 0; i < numberElements; i++){
+		if(strcmp(personaje.clase, validClass[i]) == 0){ //se podria utilizar la funcion tolower() para poner lo que llega a minusculas y disminuir los casos de error pero no lo hemos podido dar (to do)
+			return 1;
+		}
+	}
+	
+	printf("Lo sentimos, la clase no esta permitida (guerrero, mago, arquero, paladin, rogue), introduzca una valida \n");
+	return 0;
+}
+
 int main (int argc, char *argv[]){
 	
 	Personaje personaje;	
@@ -202,59 +219,6 @@ int main (int argc, char *argv[]){
 	printf("Forma -> nombre, clase, nivel, vida, ataque, defensa, magia \n");
 	printf("----------------------------------------------------------- \n");
 	
-	/*REVISAR IMPLEMENTACION
-	char buffer[200];
-	fgets(buffer, sizeof(buffer), stdin);
-	char *dato_usuario = strtok(buffer, ",");
-	int numero_datos = 0;
-	
-	while(dato_usuario != NULL){
-		switch(numero_datos){
-			case 0: 
-				strncpy(personaje.nombre, dato_usuario, sizeof((personaje.nombre)-1));
-				personaje.nombre[sizeof(personaje.nombre) - 1] = '\n';
-				break;
-				
-			case 1:
-				strncpy(personaje.clase, dato_usuario, sizeof((personaje.clase)-1));
-				personaje.clase[sizeof(personaje.clase) - 1] = '\n'; //Forzamos la eliminacion de \n para evitar extraños en consola
-				break;
-				
-			case 2:
-				personaje.nivel = atoi(dato_usuario);
-				break;
-				
-			case 3:
-				personaje.vida = atoi(dato_usuario);
-				break;
-				
-			case 4:
-				personaje.poder_ataque = atoi(dato_usuario);
-				break;
-				
-			case 5:
-				personaje.capacidad_defensa = atoi(dato_usuario);
-				break;
-				
-			case 6:
-				personaje.habilidad_magia = atoi(dato_usuario);
-				break;
-				
-
-			default:
-				printf("Error, debe de haber solo 7 datos");
-				return 1;
-		}
-		
-		numero_datos++;
-		dato_usuario = strtok(NULL, ",");
-	}
-	
-
-	if (numero_datos != 7) {
-		printf("Error: debes introducir exactamente 7 valores separados por comas.\n");
-		return 1;
-	}*/
 	
 	scanf("%s %s %d %d %d %d %d", personaje.nombre, &personaje.clase, &personaje.nivel, &personaje.vida, &personaje.poder_ataque, &personaje.capacidad_defensa, &personaje.habilidad_magia);
 	
@@ -269,13 +233,13 @@ int main (int argc, char *argv[]){
 		return 0;
 	}
 	
-
-	/*if (personaje.nivel != 3 || personaje.vida != 3 || personaje.poder_ataque != 3 || personaje.capacidad_defensa != 3 || personaje.habilidad_magia != 3){
-		printf("Lo sentimos en la parte de vida, ataque, defensa o magia, no has introducido un numero o es > 3, intentalo de nuevo.\n"); 
-		return 0; REVISAR CONDICIONAL Y MIRAR PERSONAJE.CLASE 
-	}*/
-
-	int personaje_guardado = insert_character(personaje);
+	int personaje_guardado;
+	
+	if(check_class(personaje)){
+		personaje_guardado = insert_character(personaje);
+	}else{
+		return 0;
+	};
 	
 	while(1){
 		
@@ -291,8 +255,12 @@ int main (int argc, char *argv[]){
 				printf("Por favor, introduzca los datos de su nuevo personaje: \n");
 				printf("Forma -> nombre, clase, nivel, vida, ataque, defensa, magia \n");
 				scanf("%s %s %d %d %d %d %d", personaje.nombre, &personaje.clase, &personaje.nivel, &personaje.vida, &personaje.poder_ataque, &personaje.capacidad_defensa, &personaje.habilidad_magia);
-				insert_character(personaje);
-			
+				if(check_class(personaje)){ //Checkeo de la clase del personaje una vez que sigue
+					insert_character(personaje);
+				}else{
+					return 0;
+				};
+				
 			}else{
 				
 				printf("Gracias por participar!! Hasta la proxima \n");

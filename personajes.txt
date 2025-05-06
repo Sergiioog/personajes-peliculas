@@ -1,1 +1,1 @@
-Sergio Mago 10 10 10 10 10Carmen Maga 1 1 1 1 1
+Sergio mago 10 10 10 10 10Carmen arquero 20 20 20 20 20Sergio mago 1 1 1 1 1Prueba rogue 1 1 1 1 1Prueboto arquero 40 50 60 70 80
