@@ -31,7 +31,5 @@ A cada personaje le vamos a guardar lo siguiente:
 - Defensa
 - Magia
 
-Esos campos se guardan **todos en una sola línea** dentro del archivo de texto. Cada línea es un personaje.
 
-Ejemplo:
 
